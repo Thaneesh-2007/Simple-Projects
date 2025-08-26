@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<style>
+    
+    
+    table,th,td{
+        border: 5%;
+        border-radius: 2%;
+        background-color: aqua;
+        border-style: solid;
+        border-collapse: collapse;
+        padding: 7px;
+        word-spacing: 1%;
+        text-align: left;
+        
+    }
+    body{
+        background-color: blanchedalmond;
+    }
+</style>
+<center>
+<h1>STUDENT FORM</h1>
+<table id="one">
+    <tr>
+        <td>Name</td>
+        <td><input type="text" id="name"></td>
+    </tr>
+    <tr>
+        <td>Age</td>
+        <td><input type="number" id="age" min="1"></td>
+    </tr>
+    <tr>
+        <td>Gender</td>
+        <td>
+             <input type="radio" value="male" name="gen">
+             <label for="male">Male</label>
+             <input type="radio" value="female" name="gen">
+             <label for="female">Female</label>
+
+        </td>
+    </tr>
+    <tr>
+        <td >Course</td>
+        <td >
+            <select id="course">
+                <option value="JavaScript">JavaScript</option>
+                <option value="UI&UX">UI&UX</option>
+                <option value="ReactJS">ReactJS</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>E.mail</td>
+        <td><input type="email" id="mail"></td>
+    </tr>
+    <tr>
+        <td colspan="3">
+        <button style="width: 100%;  background-color:red;" onclick="save()">Save</button>
+        </td>
+    </tr>
+</table>
+<br>
+<br>
+
+
+<table id="studentTable">
+    <tr>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>Course</th>
+    <th>Email</th>
+    </tr>
+    
+</table>
+</center>
+<script>
+     function save()
+     {
+    //assign form values into javascript variables    
+    var name=document.getElementById("name").value
+    var age=document.getElementById("age").value
+    var gen = document.querySelector('input[name="gen"]:checked')?.value || "";
+    var cour=document.getElementById("course").value
+    var mail=document.getElementById("mail").value
+    
+    //Creating Object for the values
+    var student = {
+                name: name,
+                age: age,
+                gender: gen,
+                course: cour,
+                email: mail
+        };
+
+    //Creating array to store values in local storage and show after reloaded
+    var students = JSON.parse(localStorage.getItem("students")) || [];
+    students.push(student)
+    localStorage.setItem("students",JSON.stringify(students));
+
+    //Call "addStudentToTable()" to show value in another table 
+    addStudentToTable(student)
+
+    }
+
+    /*
+    Student  -> A single student details
+    Students -> A group of students details in the form of array
+    */
+        
+
+    function addStudentToTable(student){
+
+     //  Create a new row
+    var table = document.getElementById("studentTable");
+    var newRow = table.insertRow();
+
+    // Insert cells into the new row
+    newRow.insertCell(0).textContent = student.name;
+    newRow.insertCell(1).textContent = student.age;
+    newRow.insertCell(2).textContent = student.gender;
+    newRow.insertCell(3).textContent = student.course;
+    newRow.insertCell(4).textContent = student.email;
+
+
+    //After saved values in table the form should clear for entering the another student details
+    document.getElementById("name").value="";
+    document.getElementById("age").value="";
+    document.querySelectorAll('input[name="gen"]').forEach(el => el.checked = false);
+    document.getElementById("course").selectedIndex = 0;
+    document.getElementById("mail").value="";
+
+    }
+
+
+    //If you reloar=d the page  or entering the page after a break the page should contain the previos datas
+    window.onload = function()
+        {
+            //It retrieve datas from local storage and store this in variable students
+            var students = JSON.parse(localStorage.getItem("students")) || []
+            students.forEach(addStudentToTable) //It loops the students details to the function addStudentToTable for print
+        }
+</script>
