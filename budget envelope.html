@@ -1,0 +1,84 @@
+<html>
+
+<style>
+    body{
+    background-color:khaki
+}
+
+</style>
+<label>Element</label>
+<input id="one">
+
+<label>Amount</label>
+<input id="three">
+
+<label>Date</label>
+<input id="five" type="date"><br>
+
+<button onclick="print()">Add</button>
+<table>
+    <tr>
+        <th><ul id="two"></ul></th>
+        <th><ul id="four"></ul></th>
+        <th><ul id="six"></ul></th>
+    </tr>
+    
+  
+
+</table><br>
+<button  onclick="add()">Total</button><br>
+<table>
+    <tr>
+        <td><label>Here it shows the expence of you</label></td>
+        <td><input id="result"><br></td>
+    </tr>
+    <tr>
+        <td><label>Here it shows the total budget</label></td>
+        <td><input id="result1"><br></td>
+    </tr>
+    <tr>
+        <td><label>Here it shows the remaining amount that you have</label></td>
+        <td><input id="result2"><br></td>
+    </tr>
+</table>
+<script>
+    alert("Enter the budget")
+    function print(){
+        
+        var val=document.getElementById("one").value;
+        var val1=document.getElementById("three").value;
+        var val2=document.getElementById("five").value;
+
+
+
+        var list1=document.createElement("li");
+        var list=document.createElement("li");
+        var list2=document.createElement("li");
+
+        list.textContent=val;
+        list1.textContent=val1;
+        list2.textContent=val2;
+
+        document.getElementById("two").appendChild(list)
+        document.getElementById("four").appendChild(list1)
+        document.getElementById("six").appendChild(list2)
+
+
+
+        
+    }
+    function add()
+    {
+
+        var tot = document.querySelectorAll("#four li")
+        var sum =0;
+        for(let i=0;i<tot.length;i++){
+            let value = Number(tot[i].textContent);
+            sum += value;
+        }
+        document.getElementById("result").value = (sum);
+        var budget = document.getElementById("result1").value
+        document.getElementById("result2").value = budget - sum
+    }
+</script>
+</html>
